@@ -1,0 +1,19 @@
+<main class="w-full h-full border-r border-neutral-900 flex flex-col items-center py-4 px-4">
+    <section id="filter"></section>
+    <section id="data" class="w-full flex flex-wrap items-center">
+        @for (vocab of data; track vocab) {
+            <div class="mx-2 my-2 flex flex-col items-center justify-between">
+                <section class="flex flex-col items-center justify-center">
+                    <swiper-container class="rounded-md max-w-32 max-h-32 w-32 h-32 border border-neutral-900" slides-per-view="1">
+                        @for (image of vocab.images; track image) {
+                            <swiper-slide class="w-full h-full">
+                                <img class="w-full h-full object-contain" src="{{ image }}" alt="">
+                            </swiper-slide>
+                        }
+                    </swiper-container>
+                    <h2 class="text-sm font-semibold text-neutral-300 font-quicksand">{{ vocab.text }}</h2>
+                </section>
+            </div>
+        }
+    </section>
+</main>
