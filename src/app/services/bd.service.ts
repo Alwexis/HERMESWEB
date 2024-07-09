@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpXhrBackend } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { take } from 'rxjs';
 
@@ -11,15 +11,23 @@ export class BdService {
   private _apiKey = '309a44b9-9bc4-5f34-94bc-ed7e821d34b8';
   onPost = new EventEmitter<any>();
 
-  constructor(private _http: HttpClient) { }
+  private _http: HttpClient;
+
+  constructor(private _defaultHttp: HttpClient) {
+    // Use HttpXhrBackend to bypass SSL validation (only for development)
+    const xhrBackend = new HttpXhrBackend({ build: () => new XMLHttpRequest() });
+    this._http = new HttpClient(xhrBackend);
+  }
+
+  private createHeaders() {
+    return new HttpHeaders().set('ApiKey', this._apiKey);
+  }
 
   async get(url: string) {
     const response: any = await new Promise((resolve, reject) => {
       try {
         this._http.get(this._baseUrl + url, {
-          headers: {
-            'ApiKey': this._apiKey
-          }
+          headers: this.createHeaders()
         }).pipe(take(1)).subscribe({
           next: data => { resolve(data) },
           error: error => { reject(error) }
@@ -35,9 +43,7 @@ export class BdService {
     const response: any = await new Promise((resolve, reject) => {
       try {
         this._http.post(this._baseUrl + url, data, {
-          headers: {
-            'ApiKey': this._apiKey
-          }
+          headers: this.createHeaders()
         }).pipe(take(1)).subscribe({
           next: data => { resolve(data) },
           error: error => { reject(error) }
@@ -59,9 +65,7 @@ export class BdService {
           newData: updateData
         },
         {
-          headers: {
-            'ApiKey': this._apiKey
-          }
+          headers: this.createHeaders()
         }).pipe(take(1)).subscribe({
           next: data => { resolve(data) },
           error: error => { reject(error) }
@@ -80,9 +84,7 @@ export class BdService {
           body: {
             id
           },
-          headers: {
-            'ApiKey': this._apiKey
-          }
+          headers: this.createHeaders()
         }).pipe(take(1)).subscribe({
           next: data => { resolve(data) },
           error: error => { reject(error) }
