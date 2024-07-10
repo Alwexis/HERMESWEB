@@ -31,3 +31,7 @@
         <span>{{ addingVocab ? 'Cargando...' : 'Agregar Vocabulario' }}</span>
     </div>
 </main>
+
+@if (toastData.title != '') {
+    <toast [type]="toastData.type" [title]="toastData.title" [message]="toastData.message"></toast>
+}

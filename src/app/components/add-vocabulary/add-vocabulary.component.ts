@@ -2,11 +2,12 @@ import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, Output } from '@angula
 import { Util } from '../../classes/util';
 import { FormsModule } from '@angular/forms';
 import { BdService } from '../../services/bd.service';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'add-vocabulary',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ToastComponent],
   templateUrl: './add-vocabulary.component.html',
   styleUrl: './add-vocabulary.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -18,6 +19,11 @@ export class AddVocabularyComponent {
   }
   addingImages: boolean = false;
   addingVocab: boolean = false;
+  toastData: any = {
+    type: '',
+    title: '',
+    message: ''
+  }
 
   constructor(private _bd: BdService) { }
 
@@ -27,10 +33,33 @@ export class AddVocabularyComponent {
     this.addingVocab = true;
     this.vocabulary.text = this.vocabulary.text.split(',').map((content: string) => content.trim())
     console.log(this.vocabulary.text);
-    await this._bd.post('/Diccionario', this.vocabulary);
+    try {
+      await this._bd.post('/Diccionario', this.vocabulary);
+      this.toastData = {
+        type: 'success',
+        title: 'Exito',
+        message: 'El vocabulario se ha agregado correctamente.'
+      }
+    } catch (e) {
+      console.log(e);
+      this.toastData = {
+        type: 'error',
+        title: 'Error',
+        message: 'No se pudo agregar el vocabulario.'
+      }
+    }
     this.vocabulary.text = '';
     this.vocabulary.images = [];
     this.addingVocab = false;
+    setTimeout(() => {
+      if (this.toastData.type != '') {
+        this.toastData = {
+          type: '',
+          title: '',
+          message: ''
+        }
+      }
+    }, 3000);
   }
 
   async onFileChange(event: any) {
