@@ -1,6 +1,6 @@
 <main class="w-full h-full border-r border-neutral-900 flex flex-col items-center py-4 px-4">
     <section id="filter"></section>
-    <section id="data" class="w-full flex flex-wrap items-center">
+    <section id="data" class="w-full flex flex-wrap items-center overflow-auto max-h-full">
         @for (vocab of data; track vocab) {
             <div class="mx-2 my-2 flex flex-col items-center justify-between">
                 <section class="flex flex-col items-center justify-center">
