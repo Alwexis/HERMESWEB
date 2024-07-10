@@ -2,16 +2,36 @@
     <section id="filter"></section>
     <section id="data" class="w-full flex flex-wrap items-center overflow-auto max-h-full">
         @for (vocab of data; track vocab) {
-            <div class="mx-2 my-2 flex flex-col items-center justify-between">
+            <div class="mx-2 my-2 py-2 px-2 rounded-sm shadow-md flex flex-col items-center justify-between animate-fade bg-neutral-900 bg-opacity-65 border border-neutral-900">
                 <section class="flex flex-col items-center justify-center">
-                    <swiper-container class="rounded-md max-w-32 max-h-32 w-32 h-32 border border-neutral-900" slides-per-view="1">
+                    <swiper-container class="rounded-md max-w-32 max-h-32 w-32 h-32" slides-per-view="1">
                         @for (image of vocab.images; track image) {
                             <swiper-slide class="w-full h-full">
                                 <img class="w-full h-full object-contain" src="{{ image }}" alt="">
                             </swiper-slide>
                         }
                     </swiper-container>
-                    <h2 class="text-sm font-semibold text-neutral-300 font-quicksand">{{ vocab.text }}</h2>
+                    <h2 class="my-2 text-sm font-semibold text-neutral-300 font-quicksand">{{ vocab.text[0] }}</h2>
+                    <div class="flex items-center justify-evenly w-full font-quicksand text-xs text-neutral-300">
+                        <section class="flex items-center justify-center group rounded-md cursor-pointer hover:scale-105 transition-all w-6 h-6 bg-neutral-950 bg-opacity-50 border border-neutral-900">
+                            <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path class="flex group-hover:hidden" fill="currentColor" d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm11-3v8h-2V6.413l-7.793 7.794l-1.414-1.414L17.585 5H13V3z"/>
+                                <path class="hidden group-hover:flex" fill="currentColor" d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm11-3v9l-3.794-3.793l-5.999 6l-1.414-1.414l5.999-6L12 3z"/>
+                            </svg>
+                        </section>
+                        <section class="flex items-center justify-center group rounded-md cursor-pointer hover:scale-105 transition-all w-6 h-6 bg-neutral-950 bg-opacity-50 border border-neutral-900">
+                            <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path class="flex group-hover:hidden" fill="currentColor" d="m16.757 2.997l-2 2H5v14h14V9.239l2-2v12.758a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1zm3.728-.9L21.9 3.511l-9.193 9.193l-1.412.002l-.002-1.416z"/>
+                                <path class="hidden group-hover:flex" fill="currentColor" d="m16.757 2.997l-7.466 7.466l.008 4.247l4.238-.008L21 7.24v12.758a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1zm3.728-.9L21.9 3.511l-9.193 9.193l-1.412.002l-.002-1.416z"/>
+                            </svg>
+                        </section>
+                        <section class="flex items-center justify-center group rounded-md cursor-pointer hover:scale-105 transition-all w-6 h-6 bg-neutral-950 bg-opacity-50 border border-neutral-900">
+                            <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path class="flex group-hover:hidden" fill="currentColor" d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1zm1 2H6v12h12zM9 4v2h6V4z"/>
+                                <path class="hidden group-hover:flex" fill="currentColor" d="M7 6V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6zm2-2v2h6V4z"/>
+                            </svg>
+                        </section>
+                    </div>
                 </section>
             </div>
         }
