@@ -7,7 +7,7 @@ import { take } from 'rxjs';
 })
 export class BdService {
 
-  private _baseUrl = 'https://144.22.37.132:3000/Hermes';
+  private _baseUrl = 'https://api-alwexiss.vercel.app/Hermes';
   private _apiKey = '309a44b9-9bc4-5f34-94bc-ed7e821d34b8';
   onPost = new EventEmitter<any>();
 
