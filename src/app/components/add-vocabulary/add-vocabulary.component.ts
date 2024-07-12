@@ -34,7 +34,7 @@ export class AddVocabularyComponent {
     this.vocabulary.text = this.vocabulary.text.split(',').map((content: string) => content.trim())
     console.log(this.vocabulary.text);
     try {
-      await this._bd.post('/Diccionario', this.vocabulary);
+      await this._bd.post('/Diccionario/', this.vocabulary);
       this.toastData = {
         type: 'success',
         title: 'Exito',

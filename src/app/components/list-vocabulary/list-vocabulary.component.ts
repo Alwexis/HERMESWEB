@@ -17,7 +17,7 @@ export class ListVocabularyComponent implements OnInit {
   constructor(private _bd: BdService) { }
 
   async ngOnInit() {
-    this.data = await this._bd.get('/Diccionario');
+    this.data = await this._bd.get('/Diccionario/');
     console.log(this.data);
     this._bd.onPost.subscribe((data: any) => {
       this.data.push(data[0]);
