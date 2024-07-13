@@ -35,31 +35,10 @@ export class AddVocabularyComponent {
     console.log(this.vocabulary.text);
     try {
       await this._bd.post('/Diccionario/', this.vocabulary);
-      this.toastData = {
-        type: 'success',
-        title: 'Exito',
-        message: 'El vocabulario se ha agregado correctamente.'
-      }
-    } catch (e) {
-      console.log(e);
-      this.toastData = {
-        type: 'error',
-        title: 'Error',
-        message: 'No se pudo agregar el vocabulario.'
-      }
-    }
+    } catch (e) { }
     this.vocabulary.text = '';
     this.vocabulary.images = [];
     this.addingVocab = false;
-    setTimeout(() => {
-      if (this.toastData.type != '') {
-        this.toastData = {
-          type: '',
-          title: '',
-          message: ''
-        }
-      }
-    }, 3000);
   }
 
   async onFileChange(event: any) {

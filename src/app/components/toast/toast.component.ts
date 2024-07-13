@@ -11,5 +11,13 @@ export class ToastComponent {
   @Input('type') type: 'error' | 'success' | 'warning' = 'success';
   @Input('title') title!: string;
   @Input('message') message!: string;
-  @Output('onToastClosed') closeToast = new EventEmitter<void>();
+  @Output('onToastClosed') onToastClosed = new EventEmitter<void>();
+
+  constructor() {
+    setTimeout(() => {
+      if (this) {
+        this.onToastClosed.emit();
+      }
+    }, 3000);
+  }
 }

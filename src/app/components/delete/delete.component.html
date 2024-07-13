@@ -1,0 +1,10 @@
+<main class="flex items-center justify-center absolute top-0 left-0 w-screen h-screen bg-black bg-opacity-50">
+    <section class="animate-jump-in animate-ease-in-out max-w-sm py-2 px-4 flex flex-col items-center justify-center bg-neutral-800 rounded-md">
+        <h2 class="font-montserrat font-bold text-lg text-neutral-200">¿Estás seguro?</h2>
+        <p class="text-center font-quicksand text-neutral-300 my-2">¿Estás seguro de querer eliminar <span class="font-bold">{{ name }}</span>? Esta decisión no se podrá deshacer.</p>
+        <div class="flex items-center justify-between w-full mt-2">
+            <section (click)="cancelDelete()" class="rounded-md cursor-pointer transition-all text-neutral-200 px-4 py-1 text-center font-semibold bg-red-500 hover:bg-red-600">Cancelar</section>
+            <section (click)="deleteVocab()" class="rounded-md cursor-pointer transition-all text-neutral-200 px-4 py-1 text-center font-semibold bg-blue-500 hover:bg-blue-600">Confirmar</section>
+        </div>
+    </section>
+</main>

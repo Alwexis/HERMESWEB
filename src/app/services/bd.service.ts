@@ -7,27 +7,22 @@ import { take } from 'rxjs';
 })
 export class BdService {
 
-  private _baseUrl = 'https://144.22.37.132:3000/Hermes';
+  // private _baseUrl = 'https://144.22.37.132:3000/Hermes';
+  //? Real one
+  private _baseUrl = 'http://144.22.37.132:3000/Hermes';
   private _apiKey = '309a44b9-9bc4-5f34-94bc-ed7e821d34b8';
   onPost = new EventEmitter<any>();
+  onDelete = new EventEmitter<any>();
 
-  private _http: HttpClient;
-
-  constructor(private _defaultHttp: HttpClient) {
-    // Use HttpXhrBackend to bypass SSL validation (only for development)
-    const xhrBackend = new HttpXhrBackend({ build: () => new XMLHttpRequest() });
-    this._http = new HttpClient(xhrBackend);
-  }
-
-  private createHeaders() {
-    return new HttpHeaders().set('ApiKey', this._apiKey);
-  }
+  constructor(private _http: HttpClient) { }
 
   async get(url: string) {
     const response: any = await new Promise((resolve, reject) => {
       try {
         this._http.get(this._baseUrl + url, {
-          headers: this.createHeaders()
+          headers: {
+            'ApiKey': this._apiKey
+          }
         }).pipe(take(1)).subscribe({
           next: data => { resolve(data) },
           error: error => { reject(error) }
@@ -43,7 +38,9 @@ export class BdService {
     const response: any = await new Promise((resolve, reject) => {
       try {
         this._http.post(this._baseUrl + url, data, {
-          headers: this.createHeaders()
+          headers: {
+            'ApiKey': this._apiKey
+          }
         }).pipe(take(1)).subscribe({
           next: data => { resolve(data) },
           error: error => { reject(error) }
@@ -65,7 +62,9 @@ export class BdService {
           newData: updateData
         },
         {
-          headers: this.createHeaders()
+          headers: {
+            'ApiKey': this._apiKey
+          }
         }).pipe(take(1)).subscribe({
           next: data => { resolve(data) },
           error: error => { reject(error) }
@@ -84,7 +83,9 @@ export class BdService {
           body: {
             id
           },
-          headers: this.createHeaders()
+          headers: {
+            'ApiKey': this._apiKey
+          }
         }).pipe(take(1)).subscribe({
           next: data => { resolve(data) },
           error: error => { reject(error) }
@@ -93,6 +94,7 @@ export class BdService {
         reject(error);
       }
     });
+    this.onDelete.emit(id);
     return response;
   }
 }
