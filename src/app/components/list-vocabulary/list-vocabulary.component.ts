@@ -16,6 +16,7 @@ export class ListVocabularyComponent implements OnInit {
 
   data: any;
   loading: boolean = true;
+  characters: string[] = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
   private _deleteComponent!: ComponentRef<DeleteComponent> | null;
   private _toastComponent!: ComponentRef<ToastComponent> | null;
 
