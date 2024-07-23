@@ -1,40 +1,56 @@
 <main class="w-full h-full border-r border-neutral-900 flex flex-col items-center py-4 px-4">
-    <section id="filter">
-        
+        <section class="w-full flex items-center">
+            <span class="text-neutral-200 text-sm font-quicksand">Palabras Actuales:</span>
+            @if (!loading) {
+                <span class="mx-1 text-neutral-50 font-quicksand text-sm font-bold">{{ getWordCount(this.activeChar != '') }}</span>
+            } @else {
+                <span class="mx-1 text-neutral-200 text-xs font-quicksand animate-pulse">Cargando...</span>
+            }
+        </section>
+    <section id="filter" class="w-full flex flex-wrap items-start">
+        @for (char of characters; track char) {
+            <div (click)="filterData(char)" class="{{ activeChar == char ? 'font-semibold text-neutral-100 bg-opacity-100' : '' }} mx-1 my-0.5 cursor-pointer text-sm text-center font-quicksand text-neutral-300 w-6 h-6 rounded-sm bg-neutral-900 bg-opacity-65 border border-neutral-900 hover:font-semibold hover:text-neutral-100 hover:bg-opacity-100 transition-all">
+                {{ char }}
+            </div>
+        }
     </section>
     <section id="data" class="w-full flex flex-wrap items-center overflow-auto max-h-full">
-        @for (vocab of data; track vocab) {
-            <div class="mx-2 my-2 py-2 px-2 rounded-sm shadow-md flex flex-col items-center justify-between animate-fade bg-neutral-900 bg-opacity-65 border border-neutral-900">
-                <section class="flex flex-col items-center justify-center">
-                    <swiper-container class="rounded-md max-w-32 max-h-32 w-32 h-32" slides-per-view="1">
-                        @for (image of vocab.images; track image) {
-                            <swiper-slide class="w-full h-full">
-                                <img class="w-full h-full object-contain" src="{{ image }}" alt="">
-                            </swiper-slide>
-                        }
-                    </swiper-container>
-                    <h2 class="my-2 text-sm font-semibold text-neutral-300 font-quicksand">{{ vocab.text[0] }}</h2>
-                    <div class="flex items-center justify-evenly w-full font-quicksand text-xs text-neutral-300">
-                        <section class="flex items-center justify-center group rounded-md cursor-pointer hover:scale-105 transition-all w-6 h-6 bg-neutral-950 bg-opacity-50 border border-neutral-900">
-                            <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path class="flex group-hover:hidden" fill="currentColor" d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm11-3v8h-2V6.413l-7.793 7.794l-1.414-1.414L17.585 5H13V3z"/>
-                                <path class="hidden group-hover:flex" fill="currentColor" d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm11-3v9l-3.794-3.793l-5.999 6l-1.414-1.414l5.999-6L12 3z"/>
-                            </svg>
-                        </section>
-                        <section class="flex items-center justify-center group rounded-md cursor-pointer hover:scale-105 transition-all w-6 h-6 bg-neutral-950 bg-opacity-50 border border-neutral-900">
-                            <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path class="flex group-hover:hidden" fill="currentColor" d="m16.757 2.997l-2 2H5v14h14V9.239l2-2v12.758a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1zm3.728-.9L21.9 3.511l-9.193 9.193l-1.412.002l-.002-1.416z"/>
-                                <path class="hidden group-hover:flex" fill="currentColor" d="m16.757 2.997l-7.466 7.466l.008 4.247l4.238-.008L21 7.24v12.758a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1zm3.728-.9L21.9 3.511l-9.193 9.193l-1.412.002l-.002-1.416z"/>
-                            </svg>
-                        </section>
-                        <section (click)="delete(vocab.id, vocab.text[0])" class="flex items-center justify-center group rounded-md cursor-pointer hover:scale-105 transition-all w-6 h-6 bg-neutral-950 bg-opacity-50 border border-neutral-900">
-                            <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path class="flex group-hover:hidden" fill="currentColor" d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1zm1 2H6v12h12zM9 4v2h6V4z"/>
-                                <path class="hidden group-hover:flex" fill="currentColor" d="M7 6V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6zm2-2v2h6V4z"/>
-                            </svg>
-                        </section>
-                    </div>
-                </section>
+        @if (!loading) {
+            @for (vocab of dataToIterate; track vocab) {
+                <div class="mx-2 my-2 py-2 px-2 rounded-sm shadow-md flex flex-col items-center justify-between animate-fade bg-neutral-900 bg-opacity-65 border border-neutral-900 cursor-pointer hover:scale-105 hover:bg-opacity-100 transition-all">
+                    <section class="flex flex-col items-center justify-center">
+                        <swiper-container class="rounded-md max-w-32 max-h-32 w-32 h-32" slides-per-view="1">
+                            @for (image of vocab.images; track image) {
+                                <swiper-slide class="w-full h-full">
+                                    <img class="w-full h-full object-contain" src="{{ image }}" alt="">
+                                </swiper-slide>
+                            }
+                        </swiper-container>
+                        <h2 class="my-2 text-sm font-semibold text-neutral-300 font-quicksand">{{ vocab.text[0] }}</h2>
+                        <div class="flex items-center justify-evenly w-full font-quicksand text-xs text-neutral-300">
+                            <section (click)="edit(vocab)" class="flex items-center justify-center group rounded-md cursor-pointer hover:scale-105 transition-all w-6 h-6 bg-neutral-950 bg-opacity-50 border border-neutral-900">
+                                <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path class="flex group-hover:hidden" fill="currentColor" d="m16.757 2.997l-2 2H5v14h14V9.239l2-2v12.758a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1zm3.728-.9L21.9 3.511l-9.193 9.193l-1.412.002l-.002-1.416z"/>
+                                    <path class="hidden group-hover:flex" fill="currentColor" d="m16.757 2.997l-7.466 7.466l.008 4.247l4.238-.008L21 7.24v12.758a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1zm3.728-.9L21.9 3.511l-9.193 9.193l-1.412.002l-.002-1.416z"/>
+                                </svg>
+                            </section>
+                            <section (click)="delete(vocab.id, vocab.text[0])" class="flex items-center justify-center group rounded-md cursor-pointer hover:scale-105 transition-all w-6 h-6 bg-neutral-950 bg-opacity-50 border border-neutral-900">
+                                <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path class="flex group-hover:hidden" fill="currentColor" d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1zm1 2H6v12h12zM9 4v2h6V4z"/>
+                                    <path class="hidden group-hover:flex" fill="currentColor" d="M7 6V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6zm2-2v2h6V4z"/>
+                                </svg>
+                            </section>
+                        </div>
+                    </section>
+                </div>
+            }
+        } @else {
+            <div class="w-full h-full flex flex-col items-center justify-center">
+                <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                </svg>
+                <span class="text-gray-200 animate-pulse">Cargando datos...</span>
             </div>
         }
     </section>

@@ -13,6 +13,8 @@ export class BdService {
   private _apiKey = '309a44b9-9bc4-5f34-94bc-ed7e821d34b8';
   onPost = new EventEmitter<any>();
   onDelete = new EventEmitter<any>();
+  onPut = new EventEmitter<any>();
+  onError = new EventEmitter<any>();
 
   constructor(private _http: HttpClient) { }
 
@@ -28,6 +30,7 @@ export class BdService {
           error: error => { reject(error) }
         })
       } catch (error) {
+        this.onError.emit(error);
         reject(error);
       }
     });
@@ -46,6 +49,7 @@ export class BdService {
           error: error => { reject(error) }
         })
       } catch (error) {
+        this.onError.emit(error);
         reject(error);
       }
     });
@@ -70,9 +74,11 @@ export class BdService {
           error: error => { reject(error) }
         })
       } catch (error) {
+        this.onError.emit(error);
         reject(error);
       }
     });
+    this.onPut.emit(response);
     return response;
   }
 
@@ -91,6 +97,7 @@ export class BdService {
           error: error => { reject(error) }
         })
       } catch (error) {
+        this.onError.emit(error);
         reject(error);
       }
     });

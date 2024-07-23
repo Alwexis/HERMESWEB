@@ -32,7 +32,6 @@ export class AddVocabularyComponent {
     if (this.vocabulary.text == '' || this.vocabulary.images.length < 1) return;
     this.addingVocab = true;
     this.vocabulary.text = this.vocabulary.text.split(',').map((content: string) => content.trim())
-    console.log(this.vocabulary.text);
     try {
       await this._bd.post('/Diccionario/', this.vocabulary);
     } catch (e) { }

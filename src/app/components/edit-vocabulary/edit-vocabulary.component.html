@@ -1,0 +1,41 @@
+<main class="flex items-center justify-center absolute top-0 left-0 w-screen h-screen bg-black bg-opacity-50">
+    <section class="animate-jump-in animate-ease-in-out max-w-sm py-2 px-4 flex flex-col items-center justify-center bg-neutral-800 rounded-md">
+        <h2 class="text-neutral-200 text-lg font-bold">Editar Palabra</h2>
+        <p class="text-neutral-300">Estás editando la palabra <span class="font-semibold">{{ palabra.text[0] }}</span></p>
+        <section class="font-quicksand text-neutral-300 text-sm my-2 w-full">
+            <div class="w-full">
+                <input (change)="onFileChange($event)" multiple #ImgInput type="file" accept=".png, .jpg, .jpeg" class="hidden">
+                @if (palabraAEditar.images.length < 1) {
+                    <img class="rounded-md w-full max-h-48 object-contain border border-neutral-900" src="/no_image.jpg" alt="">
+                    <section (click)="ImgInput.click()" class="text-center w-full py-2 cursor-pointer border border-neutral-400 rounded-md my-2 {{ addingImages ? 'bg-neutral-900' : ' hover:bg-neutral-900 hover:border-indigo-400 hover:text-indigo-400' }} transition-all">
+                        <span>{{ addingImages ? 'Cargando...' : 'Agregar imagen(es)' }}</span>
+                    </section>
+                } @else {
+                    <swiper-container class="rounded-md w-full h-48 max-h-48 border border-neutral-900" slides-per-view="1">
+                        @for (image of palabraAEditar.images; track image) {
+                            <swiper-slide class="w-full h-full">
+                                <img class="w-full h-full object-contain" src="{{ image }}" alt="">
+                            </swiper-slide>
+                        }
+                    </swiper-container>
+                    <section (click)="ImgInput.click()" class="text-center w-full py-2 cursor-pointer border border-neutral-400 rounded-md my-2 {{ addingImages ? 'bg-neutral-900' : ' hover:bg-neutral-900 hover:border-indigo-400 hover:text-indigo-400' }} transition-all">
+                        <span>{{ addingImages ? 'Cargando...' : 'Cambiar imagen(es)' }}</span>
+                    </section>
+                }
+            </div>
+            <div class="w-full text-neutral-400 font-quicksand text-sm">
+                <span>Vocabulario</span>
+                <input [(ngModel)]="palabraAEditar.text" class="w-full bg-neutral-900 bg-opacity-80 border border-200 border-neutral-950 rounded-md py-1 px-2 ring-0 outline-none" placeholder="Significado 1, Significado 2..." type="text">
+                <span class="text-xs text-neutral-400">Para agregar múltiples significados separalos por una coma.</span>
+            </div>
+        </section>
+        <section class="w-full flex items-center justify-between">
+            <div (click)="onClose.emit(false)" class="text-red-400 text-center w-1/3 py-2 cursor-pointer border border-red-400 hover:bg-red-400 hover:border-red-500 hover:text-neutral-200 rounded-md {{ editingVocab ? 'bg-neutral-900' : ' ' }} transition-all">
+                <span>Cancelar</span>
+            </div>
+            <div (click)="editVocabulary()" class="text-neutral-300 text-center w-1/3 py-2 cursor-pointer border border-neutral-400 rounded-md {{ editingVocab ? 'bg-neutral-900' : ' hover:bg-neutral-900 hover:border-indigo-400 hover:text-indigo-400' }} transition-all">
+                <span>{{ editingVocab ? 'Cargando...' : 'Confirmar' }}</span>
+            </div>
+        </section>
+    </section>
+</main>
